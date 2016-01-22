@@ -39,22 +39,19 @@ class TestView0 : TestView
         let greenView  = self.addColorSubView(UIColor.greenColor())
         let purpleView = self.addColorSubView(UIColor.purpleColor())
         
-        self.onLayoutSubviews = { [weak self] in
+        self.onLayoutSubviews = { [weak self] make in
             
-            self?.tk_layoutSubviews { make in
-                
-                make.insetBounds(edge: self?.edge ?? 0.0)
-                
-                make.allSize(redView, blueView, yellowView, greenView, purpleView) == CGSizeMake(100, 100)
-                
-                make.xLeft(redView, blueView)
-                make.xRight(yellowView, greenView)
-                
-                make.yTop(redView, yellowView)
-                make.yBottom(blueView, greenView)
-                
-                make.center(purpleView)
-            }
+            make.insetBounds(edge: self?.edge ?? 0.0)
+            
+            make.size(redView, blueView, yellowView, greenView, purpleView) == (100, 100)
+            
+            make.xLeft(redView, blueView)
+            make.xRight(yellowView, greenView)
+            
+            make.yTop(redView, yellowView)
+            make.yBottom(blueView, greenView)
+            
+            make.center(purpleView)
         }
     }
     

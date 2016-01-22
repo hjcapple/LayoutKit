@@ -27,10 +27,23 @@ import UIKit
 
 class TestView : UIView
 {
-    var onLayoutSubviews: (Void->Void)?
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.whiteColor()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var onLayoutSubviews: (LayoutKitMaker->Void)?
     override func layoutSubviews() {
         super.layoutSubviews()
-        onLayoutSubviews?()
+        
+        if let onLayoutSubviews = onLayoutSubviews
+        {
+            self.tk_layoutSubviews(onLayoutSubviews)
+        }
     }
 }
 

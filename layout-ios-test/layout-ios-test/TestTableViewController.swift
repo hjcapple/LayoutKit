@@ -48,7 +48,6 @@ class TestViewController : UIViewController
     {
         let aView = _viewType.init(frame: UIScreen.mainScreen().bounds)
         self.view = aView
-        self.view.backgroundColor = UIColor.whiteColor()
     }
 }
 
@@ -62,6 +61,7 @@ class TestTableViewController : UITableViewController
         ("Align", TestView2.self),
         ("Flexible Height", TestView3.self),
         ("Equal Distance", TestView4.self),
+        ("Ref view", TestView5.self)
     ]
     
     override func viewDidLoad() {

@@ -17,6 +17,7 @@
 		2E88AACD1C523D8B00A227BC /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E88AACC1C523D8B00A227BC /* TestView2.swift */; };
 		2E88AACF1C523F9B00A227BC /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E88AACE1C523F9B00A227BC /* TestView3.swift */; };
 		2E88AAD11C52402D00A227BC /* TestView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E88AAD01C52402D00A227BC /* TestView4.swift */; };
+		2E88AAD31C524BCC00A227BC /* TestView5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E88AAD21C524BCC00A227BC /* TestView5.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 		2E88AACC1C523D8B00A227BC /* TestView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
 		2E88AACE1C523F9B00A227BC /* TestView3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView3.swift; sourceTree = "<group>"; };
 		2E88AAD01C52402D00A227BC /* TestView4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView4.swift; sourceTree = "<group>"; };
+		2E88AAD21C524BCC00A227BC /* TestView5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView5.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				2E88AACC1C523D8B00A227BC /* TestView2.swift */,
 				2E88AACE1C523F9B00A227BC /* TestView3.swift */,
 				2E88AAD01C52402D00A227BC /* TestView4.swift */,
+				2E88AAD21C524BCC00A227BC /* TestView5.swift */,
 				2E88AAC41C52294E00A227BC /* TestTableViewController.swift */,
 				2E88AA951C51C8F100A227BC /* AppDelegate.swift */,
 				2E88AA9E1C51C8F100A227BC /* LaunchScreen.storyboard */,
@@ -175,6 +178,7 @@
 				2E88AAC71C522AB300A227BC /* TestView0.swift in Sources */,
 				2E88AAD11C52402D00A227BC /* TestView4.swift in Sources */,
 				2E88AAC31C52278100A227BC /* LayoutKit.swift in Sources */,
+				2E88AAD31C524BCC00A227BC /* TestView5.swift in Sources */,
 				2E88AACB1C523ADE00A227BC /* TestView1.swift in Sources */,
 				2E88AA961C51C8F100A227BC /* AppDelegate.swift in Sources */,
 				2E88AAC51C52294E00A227BC /* TestTableViewController.swift in Sources */,

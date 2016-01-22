@@ -42,17 +42,14 @@ class TestView1 : TestView
         
         let views = colors.map { self.addColorSubView($0) }
         
-        self.onLayoutSubviews = { [weak self] in
+        self.onLayoutSubviews = { make in
             
-            self?.tk_layoutSubviews { make in
-                
-                let edge : CGFloat = 20
-                
-                for view in views
-                {
-                    make.equal(view)
-                    make.insetBounds(edge: edge)
-                }
+            let edge : CGFloat = 20
+            
+            for view in views
+            {
+                make.equal(view)
+                make.insetBounds(edge: edge)
             }
         }
     }

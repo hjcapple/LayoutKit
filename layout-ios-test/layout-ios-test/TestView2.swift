@@ -35,24 +35,21 @@ class TestView2 : TestView
         let blueView   = self.addColorSubView(UIColor.blueColor())
         let yellowView = self.addColorSubView(UIColor.yellowColor())
         
-        self.onLayoutSubviews = { [weak self] in
+        self.onLayoutSubviews = { make in
             
-            self?.tk_layoutSubviews { make in
-                
-                make.eachWidth(redView, blueView, yellowView) == [50, 100, 200]
-                make.allHeight(redView, blueView, yellowView) == CGFloat(100)
-                
-                make.xCenter(redView, blueView, yellowView)
-                make.yAlign(
-                    make.flexible,
-                    redView,
-                    10,
-                    blueView,
-                    10,
-                    yellowView,
-                    make.flexible
-                )
-            }
+            make.width(redView, blueView, yellowView) == [50, 100, 200]
+            make.height(redView, blueView, yellowView) == 100
+            
+            make.xCenter(redView, blueView, yellowView)
+            make.yAlign(
+                make.flexible,
+                redView,
+                10,
+                blueView,
+                10,
+                yellowView,
+                make.flexible
+            )
         }
     }
     

@@ -30,28 +30,19 @@ class TestView4 : TestView
     override init(frame: CGRect)
     {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.blackColor()
         
         let redView    = self.addColorSubView(UIColor.redColor())
         let blueView   = self.addColorSubView(UIColor.blueColor())
-        let yellowView = self.addColorSubView(UIColor.yellowColor())
+        let greenView = self.addColorSubView(UIColor.greenColor())
         
-        self.onLayoutSubviews = { [weak self] in
+        self.onLayoutSubviews = { make in
             
-            self?.tk_layoutSubviews { make in
-                
-                make.allSize(redView, blueView, yellowView) == CGSizeMake(100, 100)
-                
-                make.xAlign(
-                    make.flexible * 0.5,
-                    redView,
-                    make.flexible,
-                    blueView,
-                    make.flexible,
-                    yellowView,
-                    make.flexible * 0.5
-                )
-                make.yCenter(redView, blueView, yellowView)
-            }
+            make.size(redView, blueView, greenView) == (80, 80)
+            
+            let F = make.flexible
+            make.xAlign(F, redView, F, blueView, F, greenView, F)
+            make.yCenter(redView, blueView, greenView)
         }
     }
     
