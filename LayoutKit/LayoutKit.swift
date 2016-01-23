@@ -218,7 +218,7 @@ extension LayoutKitMaker
             for i in 0 ..< count
             {
                 let val = values[i]
-                let frameWidth = val.layoutKit_frameHeight + flexibleValue * CGFloat(val.layoutKit_numOfFlexible)
+                let frameWidth = val.layoutKit_frameHeight + flexibleValue * val.layoutKit_numOfFlexible
                 _items[i].layoutKit_setFrameHeight(frameWidth)
             }
         }
@@ -256,7 +256,7 @@ extension LayoutKitMaker
         for item in items
         {
             item.layoutKit_setFrameOriginX(xpos)
-            xpos += flexibleValue * CGFloat(item.layoutKit_numOfFlexible)
+            xpos += flexibleValue * item.layoutKit_numOfFlexible
             xpos += item.layoutKit_frameWidth
         }
     }
@@ -278,7 +278,7 @@ extension LayoutKitMaker
         for item in items
         {
             item.layoutKit_setFrameOriginY(ypos)
-            ypos += flexibleValue * CGFloat(item.layoutKit_numOfFlexible)
+            ypos += flexibleValue * item.layoutKit_numOfFlexible
             ypos += item.layoutKit_frameHeight
         }
     }
@@ -780,7 +780,7 @@ private func computeXFlexibleValue(totalWidth: CGFloat, _ items: [LayoutKitPosit
         num += item.layoutKit_numOfFlexible
         total -= item.layoutKit_frameWidth
     }
-    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / CGFloat(num))
+    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
 }
 
 private func computeYFlexibleValue(totalHeight: CGFloat, _ items: [LayoutKitPositionItem]) -> CGFloat
@@ -792,7 +792,7 @@ private func computeYFlexibleValue(totalHeight: CGFloat, _ items: [LayoutKitPosi
         num += item.layoutKit_numOfFlexible
         total -= item.layoutKit_frameHeight
     }
-    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / CGFloat(num))
+    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
 }
 
 //////////////////////////////////////////////////
