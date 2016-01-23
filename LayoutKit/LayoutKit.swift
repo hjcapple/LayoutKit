@@ -46,12 +46,12 @@ public class LayoutKitMaker
 {
     private var _bounds : CGRect
     
-    public var flexible : LayoutFlexible {
-        return LayoutFlexible(num: 1)
+    public var flexible : LayoutKitFlexible {
+        return LayoutKitFlexible(num: 1)
     }
     
-    public var placeHolder : LayoutPlaceHolder {
-        return LayoutPlaceHolder()
+    public var placeHolder : LayoutKitPlaceHolder {
+        return LayoutKitPlaceHolder()
     }
     
     public var w : CGFloat {
@@ -62,7 +62,7 @@ public class LayoutKitMaker
         return _bounds.size.height
     }
     
-    private init(bounds: CGRect)
+    public init(bounds: CGRect)
     {
         _bounds = bounds
     }
@@ -95,15 +95,25 @@ extension LayoutKitMaker
 
 
 // MARK: -
-// MARK: - size
+// MARK: size
 extension LayoutKitMaker
 {
     public struct SizeGroup
     {
-        let views : [LayoutKitView]
+        private let _views : [LayoutKitView]
         private init(views: [LayoutKitView])
         {
-            self.views = views
+            _views = views
+        }
+        
+        private func setValue(size: CGSize)
+        {
+            for view in _views
+            {
+                var rt = view.frame
+                rt.size = size
+                view.frame = rt
+            }
         }
     }
     
@@ -120,12 +130,7 @@ extension LayoutKitMaker
 
 public func == (group: LayoutKitMaker.SizeGroup, size: CGSize)
 {
-    for view in group.views
-    {
-        var rt = view.frame
-        rt.size = size
-        view.frame = rt
-    }
+    group.setValue(size)
 }
 
 public func == (group: LayoutKitMaker.SizeGroup, size: (CGFloat, CGFloat))
@@ -134,14 +139,14 @@ public func == (group: LayoutKitMaker.SizeGroup, size: (CGFloat, CGFloat))
 }
 
 // MARK: -
-// MARK: - width
+// MARK: width
 extension LayoutKitMaker
 {
     public struct WidthGroup
     {
-        private let _items : [LayoutKitSizeItem]
+        private let _items : [LayoutKitSetWidthItem]
         private let _totalWidth : CGFloat
-        private init(items: [LayoutKitSizeItem], totalWidth: CGFloat)
+        private init(items: [LayoutKitSetWidthItem], totalWidth: CGFloat)
         {
             _items = items
             _totalWidth = totalWidth
@@ -155,25 +160,24 @@ extension LayoutKitMaker
             }
         }
         
-        private func setValues(values: [LayoutKitPositionItem])
+        private func setValues(values: [LayoutKitxAlignItem])
         {
             let flexibleValue = computeXFlexibleValue(_totalWidth, values)
             let count = min(_items.count, values.count)
             for i in 0 ..< count
             {
-                let val = values[i]
-                let frameWidth = val.layoutKit_frameWidth + flexibleValue * CGFloat(val.layoutKit_numOfFlexible)
+                let frameWidth = computeTotalWidth(values[i], flexibleValue: flexibleValue)
                 _items[i].layoutKit_setFrameWidth(frameWidth)
             }
         }
     }
     
-    public func width(items: [LayoutKitSizeItem]) -> WidthGroup
+    public func width(items: [LayoutKitSetWidthItem]) -> WidthGroup
     {
         return WidthGroup(items: items, totalWidth: _bounds.size.width)
     }
     
-    public func width(items: LayoutKitSizeItem...) -> WidthGroup
+    public func width(items: LayoutKitSetWidthItem...) -> WidthGroup
     {
         return width(items)
     }
@@ -184,20 +188,20 @@ public func == (group: LayoutKitMaker.WidthGroup, value: CGFloat)
     group.setValue(value)
 }
 
-public func == (group: LayoutKitMaker.WidthGroup, values: [LayoutKitPositionItem])
+public func == (group: LayoutKitMaker.WidthGroup, values: [LayoutKitxAlignItem])
 {
     group.setValues(values)
 }
 
 // MARK: -
-// MARK: - height
+// MARK: height
 extension LayoutKitMaker
 {
     public struct HeightGroup
     {
-        private let _items : [LayoutKitSizeItem]
+        private let _items : [LayoutKitSetHeightItem]
         private let _totalHeight : CGFloat
-        private init(items: [LayoutKitSizeItem], totalHeight: CGFloat)
+        private init(items: [LayoutKitSetHeightItem], totalHeight: CGFloat)
         {
             _items = items
             _totalHeight = totalHeight
@@ -211,25 +215,24 @@ extension LayoutKitMaker
             }
         }
         
-        private func setValues(values: [LayoutKitPositionItem])
+        private func setValues(values: [LayoutKityAlignItem])
         {
             let flexibleValue = computeYFlexibleValue(_totalHeight, values)
             let count = min(_items.count, values.count)
             for i in 0 ..< count
             {
-                let val = values[i]
-                let frameWidth = val.layoutKit_frameHeight + flexibleValue * val.layoutKit_numOfFlexible
-                _items[i].layoutKit_setFrameHeight(frameWidth)
+                let frameHeight = computeTotalHeight(values[i], flexibleValue: flexibleValue)
+                _items[i].layoutKit_setFrameHeight(frameHeight)
             }
         }
     }
     
-    public func height(items: [LayoutKitSizeItem]) -> HeightGroup
+    public func height(items: [LayoutKitSetHeightItem]) -> HeightGroup
     {
-        return HeightGroup(items: items, totalHeight: _bounds.size.height)
+        return HeightGroup(items: items, totalHeight: _bounds.height)
     }
     
-    public func height(items: LayoutKitSizeItem...) -> HeightGroup
+    public func height(items: LayoutKitSetHeightItem...) -> HeightGroup
     {
         return height(items)
     }
@@ -240,60 +243,58 @@ public func == (group: LayoutKitMaker.HeightGroup, value: CGFloat)
     group.setValue(value)
 }
 
-public func == (group: LayoutKitMaker.HeightGroup, value: [LayoutKitPositionItem])
+public func == (group: LayoutKitMaker.HeightGroup, value: [LayoutKityAlignItem])
 {
     group.setValues(value)
 }
 
 // MARK: -
-// MARK: - xAlign
+// MARK: xAlign
 extension LayoutKitMaker
 {
-    public func xAlign(items: [LayoutKitPositionItem])
+    public func xAlign(items: [LayoutKitxAlignItem])
     {
         let flexibleValue = computeXFlexibleValue(_bounds.width, items)
-        var xpos : CGFloat = _bounds.minX
+        var xpos = _bounds.minX
         for item in items
         {
             item.layoutKit_setFrameOriginX(xpos)
-            xpos += flexibleValue * item.layoutKit_numOfFlexible
-            xpos += item.layoutKit_frameWidth
+            xpos += computeTotalWidth(item, flexibleValue: flexibleValue)
         }
     }
     
-    public func xAlign(items: LayoutKitPositionItem...)
+    public func xAlign(items: LayoutKitxAlignItem...)
     {
         return xAlign(items)
     }
 }
 
 // MARK: -
-// MARK: - yAlign
+// MARK: yAlign
 extension LayoutKitMaker
 {
-    public func yAlign(items: [LayoutKitPositionItem])
+    public func yAlign(items: [LayoutKityAlignItem])
     {
         let flexibleValue = computeYFlexibleValue(_bounds.height, items)
-        var ypos : CGFloat = _bounds.minY
+        var ypos = _bounds.minY
         for item in items
         {
             item.layoutKit_setFrameOriginY(ypos)
-            ypos += flexibleValue * item.layoutKit_numOfFlexible
-            ypos += item.layoutKit_frameHeight
+            ypos += computeTotalHeight(item, flexibleValue: flexibleValue)
         }
     }
     
-    public func yAlign(items: LayoutKitPositionItem...)
+    public func yAlign(items: LayoutKityAlignItem...)
     {
         return yAlign(items)
     }
 }
 
 // MARK: -
-// MARK: - xAlign Fixed
+// MARK: xAlign Fixed
 extension LayoutKitMaker
 {
-    public func xAlignFirstFixed(first first: LayoutKitView, _ items : LayoutKitPositionItem ...)
+    public func xAlignFirstFixed(first first: LayoutKitView, _ items : LayoutKitxAlignItem ...)
     {
         let oldBounds = _bounds
         defer {
@@ -306,7 +307,7 @@ extension LayoutKitMaker
         xAlign(items)
     }
     
-    public func xAlignLastFixed(items: LayoutKitPositionItem ..., last: LayoutKitView)
+    public func xAlignLastFixed(items: LayoutKitxAlignItem ..., last: LayoutKitView)
     {
         let oldBounds = _bounds
         defer {
@@ -320,10 +321,10 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - yAlign Fixed
+// MARK: yAlign Fixed
 extension LayoutKitMaker
 {
-    public func yAlignFirstFixed(first first: LayoutKitView, _ items : LayoutKitPositionItem ...)
+    public func yAlignFirstFixed(first first: LayoutKitView, _ items : LayoutKityAlignItem ...)
     {
         let oldBounds = _bounds
         defer {
@@ -336,7 +337,7 @@ extension LayoutKitMaker
         yAlign(items)
     }
     
-    public func yAlignLastFixed(items: LayoutKitPositionItem ..., last: LayoutKitView)
+    public func yAlignLastFixed(items: LayoutKityAlignItem ..., last: LayoutKitView)
     {
         let oldBounds = _bounds
         defer {
@@ -350,7 +351,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - xCenter
+// MARK: xCenter
 extension LayoutKitMaker
 {
     public func xCenter(views : [LayoutKitView])
@@ -371,7 +372,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - yCenter
+// MARK: yCenter
 extension LayoutKitMaker
 {
     public func yCenter(views: [LayoutKitView])
@@ -393,7 +394,7 @@ extension LayoutKitMaker
 
 
 // MARK: -
-// MARK: - center
+// MARK: center
 extension LayoutKitMaker
 {
     public func center(views: [LayoutKitView])
@@ -417,7 +418,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - xLeft
+// MARK: xLeft
 extension LayoutKitMaker
 {
     public func xLeft(views : [LayoutKitView])
@@ -438,7 +439,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - xRight
+// MARK: xRight
 extension LayoutKitMaker
 {
     public func xRight(views : [LayoutKitView])
@@ -459,7 +460,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - yTop
+// MARK: yTop
 extension LayoutKitMaker
 {
     public func yTop(views : [LayoutKitView])
@@ -480,7 +481,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - yBottom
+// MARK: yBottom
 extension LayoutKitMaker
 {
     public func yBottom(views : [LayoutKitView])
@@ -501,7 +502,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - xEqual
+// MARK: xEqual
 extension LayoutKitMaker
 {
     public func xEqual(views: [LayoutKitView])
@@ -522,7 +523,7 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: - yEqual
+// MARK: yEqual
 extension LayoutKitMaker
 {
     public func yEqual(views: [LayoutKitView])
@@ -544,7 +545,7 @@ extension LayoutKitMaker
 
 
 // MARK: -
-// MARK: - equal
+// MARK: equal
 extension LayoutKitMaker
 {
     public func equal(views: [LayoutKitView])
@@ -564,7 +565,7 @@ extension LayoutKitMaker
 
 #if os(iOS)
     // MARK: -
-    // MARK: - sizeToFit
+    // MARK: sizeToFit
     extension LayoutKitMaker
     {
         public func sizeToFit(views: [UIView])
@@ -583,7 +584,7 @@ extension LayoutKitMaker
 #endif
 
 // MARK: -
-// MARK: - ref
+// MARK: ref
 extension LayoutKitMaker
 {
     public func ref(view: LayoutKitView) -> LayoutKitMaker
@@ -592,26 +593,26 @@ extension LayoutKitMaker
     }
 }
 
-// MARK: - 
-// MARK: - Flexible Value
+// MARK: -
+// MARK: Flexible Value
 extension LayoutKitMaker
 {
-    public func xFlexibleValue(items: [LayoutKitPositionItem]) -> CGFloat
+    public func xFlexibleValue(items: [LayoutKitxAlignItem]) -> CGFloat
     {
         return computeXFlexibleValue(_bounds.size.width, items)
     }
     
-    public func xFlexibleValue(items: LayoutKitPositionItem...) -> CGFloat
+    public func xFlexibleValue(items: LayoutKitxAlignItem...) -> CGFloat
     {
         return computeXFlexibleValue(_bounds.size.width, items)
     }
     
-    private func yFlexibleValue(items: [LayoutKitPositionItem]) -> CGFloat
+    private func yFlexibleValue(items: [LayoutKityAlignItem]) -> CGFloat
     {
         return computeYFlexibleValue(_bounds.size.height, items)
     }
     
-    public func yFlexibleValue(items: LayoutKitPositionItem...) -> CGFloat
+    public func yFlexibleValue(items: LayoutKityAlignItem...) -> CGFloat
     {
         return computeYFlexibleValue(_bounds.size.height, items)
     }
@@ -619,25 +620,37 @@ extension LayoutKitMaker
 
 ////////////////////////////////////////////////////
 // MARK: -
-// MARK: -protocol
-public protocol LayoutKitPositionItem
+// MARK: protocol
+public protocol LayoutKitxAlignItem
 {
     var layoutKit_frameWidth    : CGFloat  { get  }
-    var layoutKit_frameHeight   : CGFloat  { get  }
     var layoutKit_numOfFlexible : CGFloat  { get  }
     
     func layoutKit_setFrameOriginX(x : CGFloat)
+}
+
+public protocol LayoutKityAlignItem
+{
+    var layoutKit_frameHeight   : CGFloat  { get  }
+    var layoutKit_numOfFlexible : CGFloat  { get  }
     func layoutKit_setFrameOriginY(y : CGFloat)
 }
 
-public protocol LayoutKitSizeItem
+public protocol LayoutKitSetWidthItem
 {
     func layoutKit_setFrameWidth(width: CGFloat)
+}
+
+public protocol LayoutKitSetHeightItem
+{
     func layoutKit_setFrameHeight(height: CGFloat)
 }
 
 //////////////////////////////////////
-extension LayoutKitView : LayoutKitPositionItem, LayoutKitSizeItem
+// MARK: -
+// MARK: View
+extension LayoutKitView : LayoutKitxAlignItem, LayoutKityAlignItem,
+                          LayoutKitSetWidthItem, LayoutKitSetHeightItem
 {
     public var layoutKit_numOfFlexible : CGFloat {
         return 0
@@ -680,7 +693,9 @@ extension LayoutKitView : LayoutKitPositionItem, LayoutKitSizeItem
     }
 }
 
-extension CGFloat : LayoutKitPositionItem
+// MARK: -
+// MARK: CGFloat
+extension CGFloat : LayoutKitxAlignItem, LayoutKityAlignItem
 {
     public var layoutKit_numOfFlexible : CGFloat {
         return 0
@@ -701,7 +716,9 @@ extension CGFloat : LayoutKitPositionItem
     }
 }
 
-extension Int : LayoutKitPositionItem
+// MARK: -
+// MARK: Int
+extension Int : LayoutKitxAlignItem, LayoutKityAlignItem
 {
     public var layoutKit_numOfFlexible : CGFloat {
         return 0
@@ -722,7 +739,9 @@ extension Int : LayoutKitPositionItem
     }
 }
 
-public struct LayoutFlexible : LayoutKitPositionItem
+// MARK: -
+// MARK: LayoutKitFlexible
+public struct LayoutKitFlexible : LayoutKitxAlignItem, LayoutKityAlignItem
 {
     private let _num : CGFloat
     private init(num: CGFloat)
@@ -749,7 +768,19 @@ public struct LayoutFlexible : LayoutKitPositionItem
     }
 }
 
-public struct LayoutPlaceHolder: LayoutKitSizeItem
+public func * (flexible: LayoutKitFlexible, num: CGFloat) -> LayoutKitFlexible
+{
+    return LayoutKitFlexible(num: flexible._num * num)
+}
+
+public func * (num: CGFloat, flexible: LayoutKitFlexible) -> LayoutKitFlexible
+{
+    return LayoutKitFlexible(num: flexible._num * num)
+}
+
+// MARK: -
+// MARK: LayoutKitPlaceHolder
+public struct LayoutKitPlaceHolder: LayoutKitSetWidthItem, LayoutKitSetHeightItem
 {
     public func layoutKit_setFrameWidth(width: CGFloat)
     {
@@ -760,18 +791,20 @@ public struct LayoutPlaceHolder: LayoutKitSizeItem
     }
 }
 
-public func * (flexible: LayoutFlexible, num: CGFloat) -> LayoutFlexible
-{
-    return LayoutFlexible(num: flexible._num * num)
-}
-
-public func * (num: CGFloat, flexible: LayoutFlexible) -> LayoutFlexible
-{
-    return LayoutFlexible(num: flexible._num * num)
-}
-
 /////////////////////////////////////////////////
-private func computeXFlexibleValue(totalWidth: CGFloat, _ items: [LayoutKitPositionItem]) -> CGFloat
+// MARK: -
+// MARK: private functions
+private func computeTotalWidth(item: LayoutKitxAlignItem, flexibleValue: CGFloat) -> CGFloat
+{
+    return item.layoutKit_frameWidth + item.layoutKit_numOfFlexible * flexibleValue
+}
+
+private func computeTotalHeight(item: LayoutKityAlignItem, flexibleValue: CGFloat) -> CGFloat
+{
+    return item.layoutKit_frameHeight + item.layoutKit_numOfFlexible * flexibleValue
+}
+
+private func computeXFlexibleValue(totalWidth: CGFloat, _ items: [LayoutKitxAlignItem]) -> CGFloat
 {
     var total = totalWidth
     var num : CGFloat = 0
@@ -783,7 +816,7 @@ private func computeXFlexibleValue(totalWidth: CGFloat, _ items: [LayoutKitPosit
     return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
 }
 
-private func computeYFlexibleValue(totalHeight: CGFloat, _ items: [LayoutKitPositionItem]) -> CGFloat
+private func computeYFlexibleValue(totalHeight: CGFloat, _ items: [LayoutKityAlignItem]) -> CGFloat
 {
     var total = totalHeight
     var num : CGFloat = 0
@@ -795,5 +828,5 @@ private func computeYFlexibleValue(totalHeight: CGFloat, _ items: [LayoutKitPosi
     return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
 }
 
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////////
 
