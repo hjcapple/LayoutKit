@@ -41,7 +41,7 @@ class TestView4 : TestView
             make.size(redView, blueView, greenView) == (80, 80)
             
             let F = make.flexible
-            make.xAlign(F, redView, F, blueView, F, greenView, F)
+            make.xPlace(F, redView, F, blueView, F, greenView, F)
             make.yCenter(redView, blueView, greenView)
         }
     }

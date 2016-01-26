@@ -58,7 +58,7 @@ class TestTableViewController : UITableViewController
     private var _testInfos : [(String, UIView.Type)] = [
         ("Left Right Top Bottom, Center", TestView0.self),
         ("Edges", TestView1.self),
-        ("Align", TestView2.self),
+        ("Place", TestView2.self),
         ("Flexible Height", TestView3.self),
         ("Equal Distance", TestView4.self),
         ("Ref view", TestView5.self)

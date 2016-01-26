@@ -59,11 +59,11 @@ class TestView5Cell : TestView
             make.size(iconView) == (height, height)
             make.sizeToFit(titleLabel, detailLabel, longDetalLabel, timeLabel)
             
-            make.xAlign(10, iconView, 10, titleLabel, make.flexible, timeLabel, 10)
+            make.xPlace(10, iconView, 10, titleLabel, make.flexible, timeLabel, 10)
             make.ref(titleLabel).xLeft(detailLabel, longDetalLabel)
             
             make.yCenter(iconView, timeLabel)
-            make.yAlign(make.flexible, titleLabel, 6, detailLabel, longDetalLabel, make.flexible)
+            make.yPlace(make.flexible, titleLabel, 6, detailLabel, longDetalLabel, make.flexible)
         }
     }
     

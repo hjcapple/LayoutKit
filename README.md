@@ -57,13 +57,13 @@ self.tk_layoutSubviews { make in
     // 3
     make.sizeToFit(titleLabel, detailLabel, longDetalLabel, timeLabel)
     // 4
-    make.xAlign(10, iconView, 10, titleLabel, make.flexible, timeLabel, 10)
+    make.xPlace(10, iconView, 10, titleLabel, make.flexible, timeLabel, 10)
     // 5
     make.ref(titleLabel).xLeft(detailLabel, longDetalLabel)
     // 6
     make.yCenter(iconView, timeLabel)
     // 7
-    make.yAlign(make.flexible, titleLabel, 6, detailLabel, longDetalLabel, make.flexible)
+    make.yPlace(make.flexible, titleLabel, 6, detailLabel, longDetalLabel, make.flexible)
 }
 ```
 	
@@ -84,7 +84,7 @@ self.tk_layoutSubviews { make in
     
     let F = make.flexible
     // 2
-    make.xAlign(F, redView, F, blueView, F, greenView, F)
+    make.xPlace(F, redView, F, blueView, F, greenView, F)
     // 3
     make.yCenter(redView, blueView, greenView)
 }
@@ -110,14 +110,14 @@ LayoutKit 提供 API 来设置大小、水平位置、垂直位置。水平垂�
 
 API 设计中
 
-* xLeft、xRight、xCenter、xAlign 等等就是设置 x 方向。
-* yTop、yBottom、yCenter、yAlign 等等就是设置 y 方向。
+* xLeft、xRight、xCenter、xPlace 等等就是设置 x 方向。
+* yTop、yBottom、yCenter、yPlace 等等就是设置 y 方向。
 
 <a name="example0"></a>
 很多界面布局库用起来繁琐，是它每次只操作一两个 view，但事实上我们更关心界面的整体布局。LayoutKit 将所有的 views 作为一个整体，一次排列多个 views，比如：
 
 ```Swift
-make.xAlign(20, redView, make.flexible, blueView, 20)
+make.xPlace(20, redView, make.flexible, blueView, 20)
 ```
 	
 这个调用，就出现下列布局:
@@ -138,14 +138,14 @@ flexible = 375 - (20 + 100 + 100 + 20) = 135
 也可以出现多个 flexible，比如
 
 ```Swift
-make.xAligin(make.flexible, redView, blueView, make.flexible)
+make.xPlace(make.flexible, redView, blueView, make.flexible)
 ```
 	
 这代码就使得 redView 和 blueView 靠在一起，x 方向居中，而
 
 ```Swift
 let F = make.flexible
-make.xAligin(F, redView, F, blueView, F)
+make.xPlace(F, redView, F, blueView, F)
 ```
 	
 剩余空间被 3 个 flexible 均分，就产生均匀间距的布局。
@@ -154,14 +154,14 @@ make.xAligin(F, redView, F, blueView, F)
 
 ```Swift
 let F = make.flexible
-make.xAligin(F, redView, F * 2, blueView, F)
+make.xPlace(F, redView, F * 2, blueView, F)
 ```
 	
 也可以乘以一个小数，比如：
 	
 ```Swift
 let F = make.flexible
-make.xAligin(F * 0.5, redView, F, blueView, F * 0.5)
+make.xPlace(F * 0.5, redView, F, blueView, F * 0.5)
 ```
 	
 flexible 可以用在计算高度和宽度，比如：
@@ -169,7 +169,7 @@ flexible 可以用在计算高度和宽度，比如：
 ```Swift
 make.height(redView, blueView, yellowView) == [44, make.flexible, 44]
 make.xEqual(redView, blueView, yellowView)
-make.yAlign(redView, blueView, yellowView)
+make.yPlace(redView, blueView, yellowView)
 ```
     
 将 blueView 的高度设置成 flexible，就产生下面界面：
@@ -423,47 +423,47 @@ make.yCenter(view0, view1, view2)
 
 在 x, y 方向上都居中，相等于先调用 xCenter 再调用 yCenter。
 	
-### xAlign
+### xPlace
 
-在 x 方向上，依次排列各个 views，并设置好间距。
+在 x 方向上，从左到右放置各个 views，并设置好间距。
 
 比如
 
 ```Swift
-make.xAlign(10, view0, 10, view2, make.flexible, view3)
+make.xPlace(10, view0, 10, view2, make.flexible, view3)
 ```
 	
 关于 make.flexible 的描述，[见上文](#flexible)。
 	
-### yAlign
+### yPlace
 
-在 y 方向上，依次排列各个 views，并设置好间距。
+在 y 方向上，从上到下放置各个 views，并设置好间距。
 
 ```Swift
-make.yAlign(10, view0, 10, view2, make.flexible, view3)
+make.yPlace(10, view0, 10, view2, make.flexible, view3)
 ```
 	
 关于 make.flexible 的描述，[见上文](#flexible)。
 
-### xAlignFirstFixed
+### xPlaceFirstFixed
 
 第一个 view 固定不动，再排列各个 views。
 
 比如有个 iconView，已经设置好大小和位置。现在需要在它的右边，距离 10 point 放置一个 label, 就可以使用：
 
 ```Swift
-make.xAlignFirstFixed(first: iconView, 10, label)
+make.xPlaceFirstFixed(first: iconView, 10, label)
 ```
 	
-### xAlignLastFixed
+### yPlaceLastFixed
 
 依次排列各个 views, 但最后一个 view 固定不动。比如有个 iconView，已经设置好大小和位置。现在需要在它的左边，距离 10 point 放置一个 label, 就可以使用：
 
 ```Swift
-make.xAlignLastFixed(make.flexible, label, 10, last: iconView)
+make.yPlaceLastFixed(make.flexible, label, 10, last: iconView)
 ```
 	
-### yAlignFirstFixed, yAlignLastFixed
+### xPlaceFirstFixed, yPlaceLastFixed
 
 跟 x 方向的相应函数对应。
 

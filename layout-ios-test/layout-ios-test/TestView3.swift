@@ -40,7 +40,7 @@ class TestView3 : TestView
             make.height(redView, blueView, yellowView) == [44, make.flexible, 44]
             
             make.xEqual(redView, blueView, yellowView)
-            make.yAlign(redView, blueView, yellowView)
+            make.yPlace(redView, blueView, yellowView)
         }
     }
     

@@ -41,7 +41,7 @@ class TestView2 : TestView
             make.height(redView, blueView, yellowView) == 100
             
             make.xCenter(redView, blueView, yellowView)
-            make.yAlign(
+            make.yPlace(
                 make.flexible,
                 redView,
                 10,
