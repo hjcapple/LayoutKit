@@ -184,10 +184,10 @@ make.yPlace(redView, blueView, yellowView)
 刚开始时，布局 bounds 等于父 view 的 bounds, 当也可以通过一些 API 去修改。比如：
 
 ```Swift
-make.insetBounds(edge: 30)
+make.insetEdges(edge: 30)
 make.equal(blueView)
     
-make.insetBounds(edge: 30)
+make.insetEdges(edge: 30)
 make.equal(redView)
 ```
     
@@ -199,7 +199,7 @@ bounds 先插入边距，放置 blueView, 再插入边距，再放置 redView, �
 
 ```Swift
 do {
-    let oldBounds = make.insetBounds(top: 10, left: 20, bottom: 40, right: 50)
+    let oldBounds = make.insetEdges(top: 10, left: 20, bottom: 40, right: 50)
     defer {
         make.resetBounds(oldBounds)
     }
@@ -240,7 +240,7 @@ override init(frame: CGRect)
     
     let blueView = self.addColorSubView(UIColor.blueColor())
     self.onLayoutSubviews = { [weak self] make in
-        make.insetBounds(edge: 30)
+        make.insetEdges(edge: 30)
         make.equal(blueView)
         
         // do something
@@ -264,8 +264,8 @@ LayoutKit 也就提供 API 分别完成这三个步骤，而 x 排列和 y 排�
 ### 修改 bounds 
 
 ```Swift
-func insetBounds(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
-func insetBounds(edge edge: CGFloat) -> CGRect
+func insetEdges(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
+func insetEdges(edge edge: CGFloat) -> CGRect
 ```
 	
 上面已经有[布局 bounds](#bounds)的描述，上面两个 API 是在 bounds 中插入边距，从而改变 bounds，并返回旧的 bounds。
@@ -516,10 +516,10 @@ make.xLeft(view0, view1, view2)
 
 ### equal
 
-使得 views 直接占据整个 bounds。相当于同时调用，xEqual 和 yEqual。这个函数，跟 insetBounds 配合起来很容易设置边距。比如
+使得 views 直接占据整个 bounds。相当于同时调用，xEqual 和 yEqual。这个函数，跟 insetEdges 配合起来很容易设置边距。比如
 
 ```Swift
-make.insetBounds(edge: 20)
+make.insetEdges(edge: 20)
 make.equal(redView)
 ```
 

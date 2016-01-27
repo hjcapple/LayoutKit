@@ -25,6 +25,17 @@ SOFTWARE.
 import Foundation
 import UIKit
 
+struct network
+{
+    class HttpConnect
+    {
+        
+    }
+}
+
+
+private typealias HttpConnect = network.HttpConnect
+
 class TestView4 : TestView
 {
     override init(frame: CGRect)

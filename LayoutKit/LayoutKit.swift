@@ -77,7 +77,7 @@ extension LayoutKitMaker
         _bounds = bounds
     }
     
-    public func insetBounds(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
+    public func insetEdges(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
     {
         let oldBounds = _bounds
         _bounds.origin.x += left
@@ -87,9 +87,9 @@ extension LayoutKitMaker
         return oldBounds
     }
     
-    public func insetBounds(edge edge: CGFloat) -> CGRect
+    public func insetEdges(edge edge: CGFloat) -> CGRect
     {
-        return insetBounds(top: edge, left: edge, bottom: edge, right: edge)
+        return insetEdges(top: edge, left: edge, bottom: edge, right: edge)
     }
 }
 

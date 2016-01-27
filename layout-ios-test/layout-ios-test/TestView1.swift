@@ -49,7 +49,7 @@ class TestView1 : TestView
             for view in views
             {
                 make.equal(view)
-                make.insetBounds(edge: edge)
+                make.insetEdges(edge: edge)
             }
         }
     }

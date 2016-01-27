@@ -41,7 +41,7 @@ class TestView0 : TestView
         
         self.onLayoutSubviews = { [weak self] make in
             
-            make.insetBounds(edge: self?.edge ?? 0.0)
+            make.insetEdges(edge: self?.edge ?? 0.0)
             
             make.size(redView, blueView, yellowView, greenView, purpleView) == (100, 100)
             
