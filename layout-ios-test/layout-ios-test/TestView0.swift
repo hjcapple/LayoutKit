@@ -43,7 +43,7 @@ class TestView0 : TestView
             
             make.insetEdges(edge: self?.edge ?? 0.0)
             
-            make.size(redView, blueView, yellowView, greenView, purpleView) == (100, 100)
+            make.size(redView, blueView, yellowView, greenView, purpleView) == (make.w * 0.3, make.h * 0.3)
             
             make.xLeft(redView, blueView)
             make.xRight(yellowView, greenView)

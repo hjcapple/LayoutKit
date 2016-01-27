@@ -97,6 +97,8 @@ self.tk_layoutSubviews { make in
 <a name="overview"></a>
 ## 概览
 
+这个库的 API 故意设计成跟另一个库 [AutoLayoutKit](https://github.com/hjcapple/AutoLayoutKit) 相似，AutoLayoutKit 使用 AutoLayout 的约束来实现布局。假如你对这个库有兴趣，很可能会对 AutoLayoutKit 也有兴趣。
+
 界面布局，大致分解成 3 步：
 
 1. 设置大小。
@@ -279,8 +281,8 @@ func resetBounds(bounds: CGRect)
 ### 取得 bounds 大小
 	
 ```Swift
-make.w // 取得 bounds 高度
-make.h // 取得 bounds 宽度
+make.w // 取得 bounds 宽度
+make.h // 取得 bounds 高度
 ```
 	
 ### 设置 size
@@ -411,7 +413,7 @@ make.xCenter(view0, view1, view2)
 
 ### yTop, yBottom, yCenter
 
-传入的 views 在 x 方向，靠上、靠下，居中。
+传入的 views 在 y 方向，靠上、靠下，居中。
 
 比如
 
@@ -421,7 +423,7 @@ make.yCenter(view0, view1, view2)
 	
 ### center
 
-在 x, y 方向上都居中，相等于先调用 xCenter 再调用 yCenter。
+在 x, y 方向上都居中，相当于先调用 xCenter 再调用 yCenter。
 	
 ### xPlace
 
