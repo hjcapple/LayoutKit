@@ -27,7 +27,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private var _window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    private var _window : UIWindow!
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: aController)
         navigationController.navigationBar.translucent = false
         
+        _window = UIWindow(frame: UIScreen.mainScreen().bounds)
         _window.rootViewController = navigationController
         _window.makeKeyAndVisible()
         return true
