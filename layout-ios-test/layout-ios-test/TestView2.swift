@@ -31,9 +31,9 @@ class TestView2 : TestView
     {
         super.init(frame: frame)
         
-        let redView    = self.addColorSubView(UIColor.redColor())
-        let blueView   = self.addColorSubView(UIColor.blueColor())
-        let yellowView = self.addColorSubView(UIColor.yellowColor())
+        let redView    = self.addColorSubView(UIColor.red)
+        let blueView   = self.addColorSubView(UIColor.blue)
+        let yellowView = self.addColorSubView(UIColor.yellow)
         
         self.onLayoutSubviews = { make in
             

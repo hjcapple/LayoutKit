@@ -27,15 +27,15 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private var _window : UIWindow!
+    fileprivate var _window : UIWindow!
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         let aController = TestTableViewController()
         let navigationController = UINavigationController(rootViewController: aController)
-        navigationController.navigationBar.translucent = false
+        navigationController.navigationBar.isTranslucent = false
         
-        _window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        _window = UIWindow(frame: UIScreen.main.bounds)
         _window.rootViewController = navigationController
         _window.makeKeyAndVisible()
         return true

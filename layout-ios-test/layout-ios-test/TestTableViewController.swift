@@ -37,7 +37,7 @@ class TestViewController : UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = .None
+        self.edgesForExtendedLayout = UIRectEdge()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,7 +46,7 @@ class TestViewController : UIViewController
     
     override func loadView()
     {
-        let aView = _viewType.init(frame: UIScreen.mainScreen().bounds)
+        let aView = _viewType.init(frame: UIScreen.main.bounds)
         self.view = aView
     }
 }
@@ -55,7 +55,7 @@ class TestViewController : UIViewController
 private let kCellId = "CellId"
 class TestTableViewController : UITableViewController
 {
-    private var _testInfos : [(String, UIView.Type)] = [
+    fileprivate var _testInfos : [(String, UIView.Type)] = [
         ("Left Right Top Bottom, Center", TestView0.self),
         ("Edges", TestView1.self),
         ("Place", TestView2.self),
@@ -68,27 +68,27 @@ class TestTableViewController : UITableViewController
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = true
         self.title = "LayoutKit Test"
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellId)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: kCellId)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return _testInfos.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(kCellId, forIndexPath: indexPath)
-        let (title, _) = _testInfos[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: kCellId, for: indexPath)
+        let (title, _) = _testInfos[(indexPath as NSIndexPath).row]
         
         cell.textLabel?.text = title
-        cell.accessoryType = .DisclosureIndicator
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        let (_, viewType) = _testInfos[indexPath.row]
+        let (_, viewType) = _testInfos[(indexPath as NSIndexPath).row]
         let aViewController = TestViewController(viewType: viewType)
         self.navigationController?.pushViewController(aViewController, animated: true)
     }

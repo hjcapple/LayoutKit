@@ -29,14 +29,14 @@ class TestView : UIView
 {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var onLayoutSubviews: (LayoutKitMaker->Void)?
+    var onLayoutSubviews: ((LayoutKitMaker)->Void)?
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -49,7 +49,7 @@ class TestView : UIView
 
 public extension UIView
 {
-    func addColorSubView(color: UIColor) -> UIView
+    func addColorSubView(_ color: UIColor) -> UIView
     {
         let aView = UIView()
         aView.backgroundColor = color

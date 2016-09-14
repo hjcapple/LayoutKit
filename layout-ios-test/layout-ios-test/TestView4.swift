@@ -30,11 +30,11 @@ class TestView4 : TestView
     override init(frame: CGRect)
     {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.black
         
-        let redView    = self.addColorSubView(UIColor.redColor())
-        let blueView   = self.addColorSubView(UIColor.blueColor())
-        let greenView = self.addColorSubView(UIColor.greenColor())
+        let redView    = self.addColorSubView(UIColor.red)
+        let blueView   = self.addColorSubView(UIColor.blue)
+        let greenView = self.addColorSubView(UIColor.green)
         
         self.onLayoutSubviews = { make in
             

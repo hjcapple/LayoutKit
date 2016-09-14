@@ -32,12 +32,12 @@ class TestView1 : TestView
         super.init(frame: frame)
         
         let colors = [
-            UIColor.redColor(),
-            UIColor.blueColor(),
-            UIColor.yellowColor(),
-            UIColor.greenColor(),
-            UIColor.purpleColor(),
-            UIColor.orangeColor()
+            UIColor.red,
+            UIColor.blue,
+            UIColor.yellow,
+            UIColor.green,
+            UIColor.purple,
+            UIColor.orange
         ];
         
         let views = colors.map { self.addColorSubView($0) }
