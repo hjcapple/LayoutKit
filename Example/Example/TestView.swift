@@ -24,40 +24,37 @@ SOFTWARE.
 
 import Foundation
 import UIKit
+import LayoutKit
 
-class TestView0 : TestView
+class TestView : UIView
 {
-    var edge : CGFloat = 20
-    
-    override init(frame: CGRect)
-    {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        let redView    = self.addColorSubView(UIColor.red)
-        let blueView   = self.addColorSubView(UIColor.blue)
-        let yellowView = self.addColorSubView(UIColor.yellow)
-        let greenView  = self.addColorSubView(UIColor.green)
-        let purpleView = self.addColorSubView(UIColor.purple)
-        
-        self.onLayoutSubviews = { [weak self] make in
-            
-            make.insetEdges(edge: self?.edge ?? 0.0)
-            
-            make.size(redView, blueView, yellowView, greenView, purpleView) == (make.w * 0.3, make.h * 0.3)
-            
-            make.xLeft(redView, blueView)
-            make.xRight(yellowView, greenView)
-            
-            make.yTop(redView, yellowView)
-            make.yBottom(blueView, greenView)
-            
-            make.center(purpleView)
-        }
+        self.backgroundColor = UIColor.white
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    var onLayoutSubviews: ((LayoutKitMaker)->Void)?
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if let onLayoutSubviews = onLayoutSubviews
+        {
+            self.tk_layoutSubviews(onLayoutSubviews)
+        }
+    }
 }
 
-
+public extension UIView
+{
+    func addColorSubView(_ color: UIColor) -> UIView
+    {
+        let aView = UIView()
+        aView.backgroundColor = color
+        self.addSubview(aView)
+        return aView
+    }
+}
