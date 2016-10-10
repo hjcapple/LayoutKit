@@ -3,9 +3,10 @@
 
 ## 目录
 * [AutoLayout 的问题](#auto_layout_problem)
+* [环境要求](#requirement)
+* [安装](#install)
 * [使用例子](#use_example)
 * [概览](#overview)
-* [安装](#install)
 * [使用](#how_to_use)
 * [API 描述](#api_desc)
 
@@ -93,6 +94,29 @@ self.tk_layoutSubviews { make in
 1. 设置各个 view 的大小。
 2. 水平排列 redView、blueView、greenView，并设置好各自的间距。
 3. 各个 view 垂直居中。
+
+<a name="requirement"></a>
+## 环境要求
+* Swift 3.0+
+* Xcode 8.0+
+* iOS 8.0+ / macOS 10.10+
+
+<a name="install"></a>
+## 安装
+
+### Carthage
+
+在您的 `Cartfile` 添加上这一行
+
+```ogdl
+github "hjcapple/LayoutKit" "HEAD"
+```
+
+运行命令 `carthage update` 生成 `LayoutKit.framework`，将其添加到工程中。
+
+### 手动安装
+
+下载代码，将 `LayoutKit.xcodeproj` 添加到工程当中。
 
 <a name="overview"></a>
 ## 概览
@@ -209,11 +233,6 @@ do {
 }
 ```
 	
-<a name="install"></a>
-## 安装
-
-LayoutKit 只有一个独立文件，下载之后直接将 LayoutKit/LayoutKit.swift 添加到工程中。
-
 <a name="how_to_use"></a>
 ## 使用
 覆写
