@@ -293,10 +293,10 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: xPlace Fixed
+// MARK: xPlace fixed
 extension LayoutKitMaker
 {
-    public func xPlaceFirstFixed(first: LayoutKitView, _ items : LayoutKitxPlaceItem ...)
+    public func xPlace(fixed first: LayoutKitView, _ items : LayoutKitxPlaceItem ...)
     {
         let oldBounds = _bounds
         defer {
@@ -309,7 +309,7 @@ extension LayoutKitMaker
         xPlace(items)
     }
     
-    public func xPlaceLastFixed(_ items: LayoutKitxPlaceItem ..., last: LayoutKitView)
+    public func xPlace(_ items: LayoutKitxPlaceItem ..., fixed last: LayoutKitView)
     {
         let oldBounds = _bounds
         defer {
@@ -323,10 +323,10 @@ extension LayoutKitMaker
 }
 
 // MARK: -
-// MARK: yPlace Fixed
+// MARK: yPlace fixed
 extension LayoutKitMaker
 {
-    public func yPlaceFirstFixed(first: LayoutKitView, _ items : LayoutKityPlaceItem ...)
+    public func yPlace(fixed first: LayoutKitView, _ items : LayoutKityPlaceItem ...)
     {
         let oldBounds = _bounds
         defer {
@@ -339,7 +339,7 @@ extension LayoutKitMaker
         yPlace(items)
     }
     
-    public func yPlaceLastFixed(_ items: LayoutKityPlaceItem ..., last: LayoutKitView)
+    public func yPlace(_ items: LayoutKityPlaceItem ..., fixed last: LayoutKitView)
     {
         let oldBounds = _bounds
         defer {

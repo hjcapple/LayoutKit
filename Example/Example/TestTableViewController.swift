@@ -61,7 +61,8 @@ class TestTableViewController : UITableViewController
         ("Place", TestView2.self),
         ("Flexible Height", TestView3.self),
         ("Equal Distance", TestView4.self),
-        ("Ref view", TestView5.self)
+        ("Ref view", TestView5.self),
+        ("Fixed", TestView6.self)
     ]
     
     override func viewDidLoad() {

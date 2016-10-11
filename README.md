@@ -3,20 +3,21 @@
 
 ## 目录
 * [AutoLayout 的问题](#auto_layout_problem)
+* [使用例子](#use_example)
 * [环境要求](#requirement)
 * [安装](#install)
-* [使用例子](#use_example)
 * [概览](#overview)
 * [使用](#how_to_use)
 * [API 描述](#api_desc)
 
 
 ## <a name="auto_layout_problem">AutoLayout 的问题</a>
-iOS/OS X 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLayout 有些问题：
+iOS/macOS 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLayout 有些问题：
 
 * 没有占位符。导致一些界面使用一些看不见的占位 view。
 * 一些很常见的界面布局，比如等间距，用 AutoLayout 难以表述。
-* 需要配置很多约束，就算使用 [Masonry](https://github.com/SnapKit/Masonry) 或 [Cartography](https://github.com/robb/Cartography) 等布局库，约束设置也比较繁琐。而在 xib 或者 storyboard 中拖拉约束，简直是反人类。（我承认这条原因比较主观。）
+* 需要配置很多约束，就算使用 [Masonry](https://github.com/SnapKit/Masonry) 或 [Cartography](https://github.com/robb/Cartography) 等布局库，约束设置也比较繁琐。
+* 一些场合下，比如快速滚动列表，使用 AutoLayout 会有性能问题。
 
 比如
 ### <a name="ui_1">界面1</a>
@@ -34,12 +35,7 @@ iOS/OS X 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLayo
 
 三个色块代表三个按钮，已经知道大小，需要左右排列。并且使得间距 1、2、3、4 相等。这种等间距布局也很常见，而用 AutoLayout 配置起来就十分麻烦。
 
-### 另外
-AutoLayout 需要动态求解约束，有小小的性能问题。在一些复杂的滚动列表界面，cell 中出现太多不必要的占位 view, 并且有太多约束，快速滚动时可能不够流畅。
-
-为此基于传统的 frame 布局，编写了这个 LayoutKit。
-
-我没有否认 AutoLayout 的作用。一些场合，比如多语言文字自动适配大小，基于各个子 view 的大小自动算出父 view 的大小。这种传统的 frame 布局是做不到的。
+为此基于传统的 frame 布局，编写了这个 LayoutKit。我没有否认 AutoLayout 的作用。一些场合，比如多语言文字自动适配大小，基于各个子 view 的大小自动算出父 view 的大小。这种传统的 frame 布局是做不到的。
 
 AutoLayout 和 frame 布局可以结合起来使用，各取优缺点。
 
@@ -121,7 +117,7 @@ github "hjcapple/LayoutKit" "HEAD"
 <a name="overview"></a>
 ## 概览
 
-这个库的 API 故意设计成跟另一个库 [AutoLayoutKit](https://github.com/hjcapple/AutoLayoutKit) 相似，AutoLayoutKit 使用 AutoLayout 的约束来实现布局。假如你对这个库有兴趣，很可能会对 AutoLayoutKit 也有兴趣。
+这个库的 API 设计成跟另一个库 [AutoLayoutKit](https://github.com/hjcapple/AutoLayoutKit) 相似，AutoLayoutKit 使用 AutoLayout 的约束来实现布局。假如您对这个库有兴趣，很可能会对 AutoLayoutKit 也有兴趣。
 
 界面布局，大致分解成 3 步：
 
@@ -129,15 +125,15 @@ github "hjcapple/LayoutKit" "HEAD"
 2. 水平方向排列各个 views。
 3. 垂直方向排列各个 views。
 
-LayoutKit 提供 API 来设置大小、水平位置、垂直位置。水平垂直在英文中用 h 和 v 表示，但我实在是记不清楚。因此设定用数轴的概念：
+AutoLayoutKit 提供 API 分别设置大小、水平位置、垂直位置。水平方向和垂直方向使用数轴的概念：
 
 * 水平方向，就是 x 方向。
 * 垂直方向，就是 y 方向。
 
 API 设计中
 
-* xLeft、xRight、xCenter、xPlace 等等就是设置 x 方向。
-* yTop、yBottom、yCenter、yPlace 等等就是设置 y 方向。
+* `xLeft`、`xRight`、`xCenter`、`xPlace` 等就是设置 x 方向。
+* `yTop`、`yBottom`、`yCenter`、`yPlace` 等就是设置 y 方向。
 
 <a name="example0"></a>
 很多界面布局库用起来繁琐，是它每次只操作一两个 view，但事实上我们更关心界面的整体布局。LayoutKit 将所有的 views 作为一个整体，一次排列多个 views，比如：
@@ -285,8 +281,8 @@ LayoutKit 也就提供 API 分别完成这三个步骤，而 x 排列和 y 排�
 ### 修改 bounds 
 
 ```Swift
-func insetEdges(top top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
-func insetEdges(edge edge: CGFloat) -> CGRect
+func insetEdges(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect
+func insetEdges(edge: CGFloat) -> CGRect
 ```
 	
 上面已经有[布局 bounds](#bounds)的描述，上面两个 API 是在 bounds 中插入边距，从而改变 bounds，并返回旧的 bounds。
@@ -308,10 +304,10 @@ make.h // 取得 bounds 高度
 用法：
 
 ```Swift	
-make.size(view0, view1, view2) == CGSizeMake(100, 100)
+make.size(view0, view1, view2) == CGSize(width: 100, height: 100)
 ```
 	
-将所有 views 设置成对应的大小。另外可以简写，去掉 CGSizeMake。
+将所有 views 设置成对应的大小。另外可以简写成。
 
 ```Swift
 make.size(view0, view1, view2) == (100, 100)
@@ -466,25 +462,23 @@ make.yPlace(10, view0, 10, view2, make.flexible, view3)
 	
 关于 make.flexible 的描述，[见上文](#flexible)。
 
-### xPlaceFirstFixed
+### xPlace fixed 
 
 第一个 view 固定不动，再排列各个 views。
 
 比如有个 iconView，已经设置好大小和位置。现在需要在它的右边，距离 10 point 放置一个 label, 就可以使用：
 
 ```Swift
-make.xPlaceFirstFixed(first: iconView, 10, label)
+make.xPlace(fixed: iconView, 10, label)
 ```
-	
-### yPlaceLastFixed
 
-依次排列各个 views, 但最后一个 view 固定不动。比如有个 iconView，已经设置好大小和位置。现在需要在它的左边，距离 10 point 放置一个 label, 就可以使用：
+当然也可以固定最后一个 view 不动。比如有个 iconView，已经设置好大小和位置。现在需要在它的左边，距离 10 point 放置一个 label, 就可以使用：
 
 ```Swift
-make.yPlaceLastFixed(make.flexible, label, 10, last: iconView)
+make.x(make.flexible, label, 10, fixed: iconView)
 ```
 	
-### xPlaceFirstFixed, yPlaceLastFixed
+### yPlace fixed
 
 跟 x 方向的相应函数对应。
 

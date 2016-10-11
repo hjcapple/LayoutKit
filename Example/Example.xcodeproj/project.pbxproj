@@ -19,6 +19,7 @@
 		2E9284071DABEF9D009D7AC2 /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9283FC1DABEF9D009D7AC2 /* TestView3.swift */; };
 		2E9284081DABEF9D009D7AC2 /* TestView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9283FD1DABEF9D009D7AC2 /* TestView4.swift */; };
 		2E9284091DABEF9D009D7AC2 /* TestView5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9283FE1DABEF9D009D7AC2 /* TestView5.swift */; };
+		2EC0A1A21DAC96390099F386 /* TestView6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0A1A11DAC96390099F386 /* TestView6.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		2E9283FC1DABEF9D009D7AC2 /* TestView3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView3.swift; sourceTree = "<group>"; };
 		2E9283FD1DABEF9D009D7AC2 /* TestView4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView4.swift; sourceTree = "<group>"; };
 		2E9283FE1DABEF9D009D7AC2 /* TestView5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView5.swift; sourceTree = "<group>"; };
+		2EC0A1A11DAC96390099F386 /* TestView6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView6.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				2E9283FC1DABEF9D009D7AC2 /* TestView3.swift */,
 				2E9283FD1DABEF9D009D7AC2 /* TestView4.swift */,
 				2E9283FE1DABEF9D009D7AC2 /* TestView5.swift */,
+				2EC0A1A11DAC96390099F386 /* TestView6.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				2E9284021DABEF9D009D7AC2 /* TestTableViewController.swift in Sources */,
 				2E9284061DABEF9D009D7AC2 /* TestView2.swift in Sources */,
 				2E9284071DABEF9D009D7AC2 /* TestView3.swift in Sources */,
+				2EC0A1A21DAC96390099F386 /* TestView6.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
