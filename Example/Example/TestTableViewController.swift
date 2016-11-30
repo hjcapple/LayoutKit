@@ -74,7 +74,7 @@ class TestTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: kCellId, for: indexPath)
-        let (title, _) = _testInfos[(indexPath as NSIndexPath).row]
+        let title = _testInfos[indexPath.row].0
 
         cell.textLabel?.text = title
         cell.accessoryType = .disclosureIndicator
@@ -82,7 +82,7 @@ class TestTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let (_, viewType) = _testInfos[(indexPath as NSIndexPath).row]
+        let (_, viewType) = _testInfos[indexPath.row]
         let aViewController = TestViewController(viewType: viewType)
         self.navigationController?.pushViewController(aViewController, animated: true)
     }
