@@ -34,8 +34,16 @@ import Foundation
 
 public extension LayoutKitView {
 
-    func tk_layoutSubviews(_ callback: ((LayoutKitMaker) -> Void)) {
+    func tk_layout(_ callback: ((LayoutKitMaker) -> Void)) {
         let make = LayoutKitMaker(bounds: self.bounds)
+        callback(make)
+    }
+}
+
+public extension CGRect {
+
+    func tk_layout(_ callback: ((LayoutKitMaker) -> Void)) {
+        let make = LayoutKitMaker(bounds: self)
         callback(make)
     }
 }
@@ -563,46 +571,85 @@ public protocol LayoutKitSetHeightItem {
 }
 
 /// ///////////////////////////////////
+public final class LayoutKitRect : LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
+    public var rect : CGRect
+    
+    public init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
+        rect = CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    public init(rect: CGRect) {
+        self.rect = rect;
+    }
+    
+    public var layoutKit_numOfFlexible: CGFloat {
+        return 0
+    }
+    
+    public var layoutKit_frameWidth: CGFloat {
+        return rect.width
+    }
+    
+    public var layoutKit_frameHeight: CGFloat {
+        return rect.height
+    }
+    
+    public func layoutKit_setFrameOriginX(_ x: CGFloat) {
+        rect.origin.x = x
+    }
+    
+    public func layoutKit_setFrameOriginY(_ y: CGFloat) {
+        rect.origin.y = y
+    }
+    
+    public func layoutKit_setFrameWidth(_ width: CGFloat) {
+        rect.size.width = width
+    }
+    
+    public func layoutKit_setFrameHeight(_ height: CGFloat) {
+        rect.size.height = height
+    }
+}
+
 // MARK: -
 // MARK: View
-extension LayoutKitView: LayoutKitxPlaceItem, LayoutKityPlaceItem,
-    LayoutKitSetWidthItem, LayoutKitSetHeightItem {
-        public var layoutKit_numOfFlexible: CGFloat {
-            return 0
-        }
-
-        public var layoutKit_frameWidth: CGFloat {
-            return self.frame.width
-        }
-
-        public var layoutKit_frameHeight: CGFloat {
-            return self.frame.height
-        }
-
-        public func layoutKit_setFrameOriginX(_ x: CGFloat) {
-            var rt = self.frame
-            rt.origin.x = x
-            self.frame = rt
-        }
-
-        public func layoutKit_setFrameOriginY(_ y: CGFloat) {
-            var rt = self.frame
-            rt.origin.y = y
-            self.frame = rt
-        }
-
-        public func layoutKit_setFrameWidth(_ width: CGFloat) {
-            var rt = self.frame
-            rt.size.width = width
-            self.frame = rt
-        }
-
-        public func layoutKit_setFrameHeight(_ height: CGFloat) {
-            var rt = self.frame
-            rt.size.height = height
-            self.frame = rt
-        }
+extension LayoutKitView: LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
+    public var layoutKit_numOfFlexible: CGFloat {
+        return 0
     }
+
+    public var layoutKit_frameWidth: CGFloat {
+        return self.frame.width
+    }
+
+    public var layoutKit_frameHeight: CGFloat {
+        return self.frame.height
+    }
+
+    public func layoutKit_setFrameOriginX(_ x: CGFloat) {
+        var rt = self.frame
+        rt.origin.x = x
+        self.frame = rt
+    }
+
+    public func layoutKit_setFrameOriginY(_ y: CGFloat) {
+        var rt = self.frame
+        rt.origin.y = y
+        self.frame = rt
+    }
+
+    public func layoutKit_setFrameWidth(_ width: CGFloat) {
+        var rt = self.frame
+        rt.size.width = width
+        self.frame = rt
+    }
+
+    public func layoutKit_setFrameHeight(_ height: CGFloat) {
+        var rt = self.frame
+        rt.size.height = height
+        self.frame = rt
+    }
+}
 
 // MARK: -
 // MARK: CGFloat

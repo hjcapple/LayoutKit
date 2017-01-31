@@ -43,7 +43,7 @@ class TestView: UIView {
         super.layoutSubviews()
 
         if let onLayoutSubviews = onLayoutSubviews {
-            self.tk_layoutSubviews(onLayoutSubviews)
+            self.tk_layout(onLayoutSubviews)
         }
     }
 }

@@ -14,7 +14,6 @@
 ## <a name="auto_layout_problem">AutoLayout 的问题</a>
 iOS/macOS 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLayout 有些问题：
 
-* 没有占位符。导致一些界面使用一些看不见的占位 view。
 * 一些很常见的界面布局，比如等间距，用 AutoLayout 难以表述。
 * 需要配置很多约束，就算使用 [Masonry](https://github.com/SnapKit/Masonry) 或 [Cartography](https://github.com/robb/Cartography) 等布局库，约束设置也比较繁琐。
 * 一些场合下，比如快速滚动列表，使用 AutoLayout 会有性能问题。
@@ -46,7 +45,7 @@ AutoLayout 和 frame 布局可以结合起来使用，各取优缺点。
 ### [界面1](#ui_1)
 
 ```Swift
-self.tk_layoutSubviews { make in
+self.tk_layout { make in
     // 1
     let iconHeight = make.yFlexibleValue(10, make.flexible, 10)
     // 2
@@ -75,7 +74,7 @@ self.tk_layoutSubviews { make in
 ### [界面 2](#ui_2)
 
 ```Swift
-self.tk_layoutSubviews { make in
+self.tk_layout { make in
     // 1
     make.size(redView, blueView, greenView) == (80, 80)
     
@@ -242,7 +241,7 @@ do {
 override func layoutSubviews() {
     super.layoutSubviews()
     
-    self.tk_layoutSubviews { make in
+    self.tk_layout { make in
         // 布局
     }
 }
