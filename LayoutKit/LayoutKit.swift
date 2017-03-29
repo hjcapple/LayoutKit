@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2016 HJC hjcapple@gmail.com
+ Copyright (c) 2017 HJC hjcapple@gmail.com
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -571,41 +571,41 @@ public protocol LayoutKitSetHeightItem {
 }
 
 /// ///////////////////////////////////
-public final class LayoutKitRect : LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
-    public var rect : CGRect
-    
+public final class LayoutKitRect: LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
+    public var rect: CGRect
+
     public init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
         rect = CGRect(x: x, y: y, width: width, height: height)
     }
-    
+
     public init(rect: CGRect) {
-        self.rect = rect;
+        self.rect = rect
     }
-    
+
     public var layoutKit_numOfFlexible: CGFloat {
         return 0
     }
-    
+
     public var layoutKit_frameWidth: CGFloat {
         return rect.width
     }
-    
+
     public var layoutKit_frameHeight: CGFloat {
         return rect.height
     }
-    
+
     public func layoutKit_setFrameOriginX(_ x: CGFloat) {
         rect.origin.x = x
     }
-    
+
     public func layoutKit_setFrameOriginY(_ y: CGFloat) {
         rect.origin.y = y
     }
-    
+
     public func layoutKit_setFrameWidth(_ width: CGFloat) {
         rect.size.width = width
     }
-    
+
     public func layoutKit_setFrameHeight(_ height: CGFloat) {
         rect.size.height = height
     }
@@ -760,7 +760,7 @@ private func computeXFlexibleValue(_ totalWidth: CGFloat, _ items: [LayoutKitxPl
         num += item.layoutKit_numOfFlexible
         total -= item.layoutKit_frameWidth
     }
-    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
+    return (num < CGFloat.ulpOfOne) ? 0 : (total / num)
 }
 
 private func computeYFlexibleValue(_ totalHeight: CGFloat, _ items: [LayoutKityPlaceItem]) -> CGFloat {
@@ -770,7 +770,7 @@ private func computeYFlexibleValue(_ totalHeight: CGFloat, _ items: [LayoutKityP
         num += item.layoutKit_numOfFlexible
         total -= item.layoutKit_frameHeight
     }
-    return (num < CGFloat(FLT_EPSILON)) ? 0 : (total / num)
+    return (num < CGFloat.ulpOfOne) ? 0 : (total / num)
 }
 
 /// ///////////////////////////////////////////////////

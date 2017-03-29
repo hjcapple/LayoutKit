@@ -21,7 +21,7 @@ iOS/macOS 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLay
 比如
 ### <a name="ui_1">界面1</a>
 
-<img alt="example0" src="./images/example0.png"/ width="320">
+<img alt="example0" src="./images/example0.png" width="320">
 
 这种布局在 TableViewCell 中很常见，左边是一张图片，中间是字体不同的 label，几个 label 整体需要上下居中，最靠右是时间标签。
 
@@ -30,7 +30,7 @@ iOS/macOS 开发中为了适应多种尺寸，会使用 AutoLayout。但 AutoLay
 <a name="ui_2"></a>
 ### 界面2
 
-<img alt="example1" src="./images/example1.png"/ width="320">
+<img alt="example1" src="./images/example1.png" width="320">
 
 三个色块代表三个按钮，已经知道大小，需要左右排列。并且使得间距 1、2、3、4 相等。这种等间距布局也很常见，而用 AutoLayout 配置起来就十分麻烦。
 
@@ -143,7 +143,7 @@ make.xPlace(20, redView, make.flexible, blueView, 20)
 	
 这个调用，就出现下列布局:
 
-<img alt="example2" src="./images/example2.png"/ width="320">
+<img alt="example2" src="./images/example2.png" width="320">
 
 <a name="flexible"></a>
 ### flexible
@@ -195,7 +195,7 @@ make.yPlace(redView, blueView, yellowView)
     
 将 blueView 的高度设置成 flexible，就产生下面界面：
 
-<img alt="example3" src="./images/example3.png"/ width="320">
+<img alt="example3" src="./images/example3.png" width="320">
 
 <a name="bounds"></a>
 ### 布局 bounds
@@ -214,7 +214,7 @@ make.equal(redView)
     
 bounds 先插入边距，放置 blueView, 再插入边距，再放置 redView, 就产生下面布局： 
 
-<img alt="example4" src="./images/example4.png"/ width="320">
+<img alt="example4" src="./images/example4.png" width="320">
 
 也可以分别设置上下左右的边距，之后通过 resetBounds 来还原 bounds，比如：
 

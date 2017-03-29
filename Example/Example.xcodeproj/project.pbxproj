@@ -23,6 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2E159DD61E8BE9FA00A24172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E9283E31DABEF07009D7AC2 /* LayoutKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E9283C41DABED34009D7AC2;
+			remoteInfo = "LayoutKit iOS";
+		};
 		2E9283E81DABEF07009D7AC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2E9283E31DABEF07009D7AC2 /* LayoutKit.xcodeproj */;
@@ -142,6 +149,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2E159DD71E8BE9FA00A24172 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = "layout-ios-test";
@@ -235,6 +243,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2E159DD71E8BE9FA00A24172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "LayoutKit iOS";
+			targetProxy = 2E159DD61E8BE9FA00A24172 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2E9283F41DABEF9D009D7AC2 /* LaunchScreen.storyboard */ = {

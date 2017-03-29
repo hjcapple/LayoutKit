@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2016 HJC hjcapple@gmail.com
+ Copyright (c) 2017 HJC hjcapple@gmail.com
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _window = UIWindow(frame: UIScreen.main.bounds)
         _window.rootViewController = navigationController
         _window.makeKeyAndVisible()
+        
         return true
     }
 }
