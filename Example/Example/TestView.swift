@@ -37,7 +37,7 @@ class TestView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var onLayoutSubviews: ((LayoutKitMaker) -> Void)?
+    var onLayoutSubviews: ((inout LayoutKitMaker) -> Void)?
 
     override func layoutSubviews() {
         super.layoutSubviews()

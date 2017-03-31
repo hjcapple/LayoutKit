@@ -34,22 +34,22 @@ import Foundation
 
 public extension LayoutKitView {
 
-    func tk_layout(_ callback: ((LayoutKitMaker) -> Void)) {
-        let make = LayoutKitMaker(bounds: self.bounds)
-        callback(make)
+    func tk_layout(_ callback: ((inout LayoutKitMaker) -> Void)) {
+        var make = LayoutKitMaker(bounds: self.bounds)
+        callback(&make)
     }
 }
 
 public extension CGRect {
 
-    func tk_layout(_ callback: ((LayoutKitMaker) -> Void)) {
-        let make = LayoutKitMaker(bounds: self)
-        callback(make)
+    func tk_layout(_ callback: ((inout LayoutKitMaker) -> Void)) {
+        var make = LayoutKitMaker(bounds: self)
+        callback(&make)
     }
 }
 
 /// ////////////////////////////////////////////////////////
-public final class LayoutKitMaker {
+public struct LayoutKitMaker {
     fileprivate var _bounds: CGRect
 
     public var flexible: LayoutKitFlexible {
@@ -77,12 +77,12 @@ public final class LayoutKitMaker {
 // MARK: bounds
 extension LayoutKitMaker {
 
-    public func resetBounds(_ bounds: CGRect) {
+    public mutating func resetBounds(_ bounds: CGRect) {
         _bounds = bounds
     }
 
     @discardableResult
-    public func insetEdges(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
+    public mutating func insetEdges(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) -> CGRect {
         let oldBounds = _bounds
         _bounds.origin.x += left
         _bounds.origin.y += top
@@ -92,7 +92,7 @@ extension LayoutKitMaker {
     }
 
     @discardableResult
-    public func insetEdges(edge: CGFloat) -> CGRect {
+    public mutating func insetEdges(edge: CGFloat) -> CGRect {
         return insetEdges(top: edge, left: edge, bottom: edge, right: edge)
     }
 }
@@ -229,14 +229,18 @@ public func == (group: LayoutKitMaker.HeightGroup, value: [LayoutKityPlaceItem])
 // MARK: -
 // MARK: xPlace
 extension LayoutKitMaker {
-
-    public func xPlace(_ items: [LayoutKitxPlaceItem]) {
-        let flexibleValue = computeXFlexibleValue(_bounds.width, items)
-        var xpos = _bounds.minX
+    
+    static fileprivate func xPlace(_ items: [LayoutKitxPlaceItem], bounds: CGRect) {
+        let flexibleValue = computeXFlexibleValue(bounds.width, items)
+        var xpos = bounds.minX
         for item in items {
             item.layoutKit_setFrameOriginX(xpos)
             xpos += computeTotalWidth(item, flexibleValue: flexibleValue)
         }
+    }
+
+    public func xPlace(_ items: [LayoutKitxPlaceItem]) {
+        LayoutKitMaker.xPlace(items, bounds: _bounds)
     }
 
     public func xPlace(_ items: LayoutKitxPlaceItem...) {
@@ -247,14 +251,18 @@ extension LayoutKitMaker {
 // MARK: -
 // MARK: yPlace
 extension LayoutKitMaker {
-
-    public func yPlace(_ items: [LayoutKityPlaceItem]) {
-        let flexibleValue = computeYFlexibleValue(_bounds.height, items)
-        var ypos = _bounds.minY
+    
+    static fileprivate func yPlace(_ items: [LayoutKityPlaceItem], bounds: CGRect) {
+        let flexibleValue = computeYFlexibleValue(bounds.height, items)
+        var ypos = bounds.minY
         for item in items {
             item.layoutKit_setFrameOriginY(ypos)
             ypos += computeTotalHeight(item, flexibleValue: flexibleValue)
         }
+    }
+
+    public func yPlace(_ items: [LayoutKityPlaceItem]) {
+        LayoutKitMaker.yPlace(items, bounds: _bounds)
     }
 
     public func yPlace(_ items: LayoutKityPlaceItem...) {
@@ -267,26 +275,18 @@ extension LayoutKitMaker {
 extension LayoutKitMaker {
 
     public func xPlace(fixed first: LayoutKitView, _ items: LayoutKitxPlaceItem ...) {
-        let oldBounds = _bounds
-        defer {
-            _bounds = oldBounds
-        }
-
+        var bounds = _bounds
         let maxX = _bounds.maxX
-        _bounds.origin.x = first.frame.maxX
-        _bounds.size.width = maxX - _bounds.origin.x
-        xPlace(items)
+        bounds.origin.x = first.frame.maxX
+        bounds.size.width = maxX - bounds.origin.x
+        LayoutKitMaker.xPlace(items, bounds: bounds)
     }
 
     public func xPlace(_ items: LayoutKitxPlaceItem ..., fixed last: LayoutKitView) {
-        let oldBounds = _bounds
-        defer {
-            _bounds = oldBounds
-        }
-
+        var bounds = _bounds
         let maxX = last.frame.minX
-        _bounds.size.width = maxX - _bounds.origin.x
-        xPlace(items)
+        bounds.size.width = maxX - bounds.origin.x
+        LayoutKitMaker.xPlace(items, bounds: bounds)
     }
 }
 
@@ -295,26 +295,18 @@ extension LayoutKitMaker {
 extension LayoutKitMaker {
 
     public func yPlace(fixed first: LayoutKitView, _ items: LayoutKityPlaceItem ...) {
-        let oldBounds = _bounds
-        defer {
-            _bounds = oldBounds
-        }
-
-        let maxY = _bounds.maxY
-        _bounds.origin.y = first.frame.maxY
-        _bounds.size.height = maxY - _bounds.origin.y
-        yPlace(items)
+        var bounds = _bounds
+        let maxY = bounds.maxY
+        bounds.origin.y = first.frame.maxY
+        bounds.size.height = maxY - bounds.origin.y
+        LayoutKitMaker.yPlace(items, bounds: bounds)
     }
 
     public func yPlace(_ items: LayoutKityPlaceItem ..., fixed last: LayoutKitView) {
-        let oldBounds = _bounds
-        defer {
-            _bounds = oldBounds
-        }
-
+        var bounds = _bounds;
         let minY = last.frame.minY
-        _bounds.size.height = minY - _bounds.origin.y
-        yPlace(items)
+        bounds.size.height = minY - bounds.origin.y
+        LayoutKitMaker.yPlace(items, bounds: bounds)
     }
 }
 
@@ -571,7 +563,7 @@ public protocol LayoutKitSetHeightItem {
 }
 
 /// ///////////////////////////////////
-public final class LayoutKitRect: LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
+public final class LayoutKitRectHolder: LayoutKitxPlaceItem, LayoutKityPlaceItem, LayoutKitSetWidthItem, LayoutKitSetHeightItem {
     public var rect: CGRect
 
     public init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
