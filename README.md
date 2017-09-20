@@ -92,8 +92,8 @@ self.tk_layout { make in
 
 <a name="requirement"></a>
 ## 环境要求
-* Swift 3.0+
-* Xcode 8.0+
+* Swift 4.0+
+* Xcode 9.0+
 * iOS 8.0+ / macOS 10.10+
 
 <a name="install"></a>
